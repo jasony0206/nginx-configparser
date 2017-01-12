@@ -27,3 +27,14 @@ TEST_F(NginxStringConfigParserTest, UsingFixture) {
   EXPECT_EQ("foo", out_config_.statements_[0]->tokens_[0]);
   EXPECT_EQ("bar", out_config_.statements_[0]->tokens_[1]);
 }
+
+TEST_F(NginxStringConfigParserTest, NestedConfig) {
+  std::string config_string = "foo { foo bar; }";
+  EXPECT_TRUE(ParseString(config_string));
+  EXPECT_EQ("foo", out_config_.statements_[0]->tokens_[0]);
+}
+
+TEST_F(NginxStringConfigParserTest, InvalidConfig) {
+  std::string config_string = "foo { foo bar;";
+  EXPECT_FALSE(ParseString(config_string));
+}
