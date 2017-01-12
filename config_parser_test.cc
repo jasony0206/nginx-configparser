@@ -38,3 +38,8 @@ TEST_F(NginxStringConfigParserTest, InvalidConfig) {
   std::string config_string = "foo { foo bar;";
   EXPECT_FALSE(ParseString(config_string));
 }
+
+TEST_F(NginxStringConfigParserTest, TwoEndBlocksInARow) {
+  std::string config_string = "foo { foo { bar; } }";
+  EXPECT_TRUE(ParseString(config_string));
+}
