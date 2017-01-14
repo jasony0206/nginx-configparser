@@ -43,3 +43,15 @@ TEST_F(NginxStringConfigParserTest, TwoEndBlocksInARow) {
   std::string config_string = "foo { foo { bar; } }";
   EXPECT_TRUE(ParseString(config_string));
 }
+
+TEST_F(NginxStringConfigParserTest, NestedConfigWithStatements) {
+  EXPECT_TRUE(ParseString("server { foo { bar; } listen 80; }"));
+}
+
+TEST_F(NginxStringConfigParserTest, StatementFollowingComment) {
+  EXPECT_TRUE(ParseString("# This is a comment \n foo;"));
+}
+
+TEST_F(NginxStringConfigParserTest, CommentFollowingStatement) {
+  EXPECT_TRUE(ParseString("foo; # This is a comment"));
+}
